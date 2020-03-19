@@ -20,5 +20,6 @@ from django.conf.urls import url,include
 urlpatterns = [
     path('admin/', admin.site.urls),
    # url(r'^yunwei/$',views.mas()),
-   url(r'(?P<codes>[a-zA-Z0-9]+)',views.mas)
+   url(r'(aa/?P<codes>[a-zA-Z0-9]+)',views.mas),
+    url(r'code/',views.codeall.as_view())
 ]
