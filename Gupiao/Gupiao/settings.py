@@ -25,7 +25,7 @@ SECRET_KEY = '_h+xcmc*e3#h07f(=xgj9@uu484_$^qev)oa2asu!kf-fo(qt('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'codess',
 ]
 
 MIDDLEWARE = [
@@ -73,14 +74,30 @@ WSGI_APPLICATION = 'Gupiao.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+# (host='106.13.112.136',
+#                              port=3306,
+#                              user='root',
+#                              password='1160329981wj',
+#                              db='codeall',
+#
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'codeall',
+        'USER': 'root',
+        'PASSWORD': '1160329981wj',
+        'HOST': "106.13.112.136",
+        'PORT': 3306,
+        'init_command': 'SET default_storage_engine=MyISAM',
+
     }
 }
-
-
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 

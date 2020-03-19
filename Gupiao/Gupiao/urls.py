@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
+from codess import views
+from django.conf.urls import url,include
 urlpatterns = [
     path('admin/', admin.site.urls),
+   # url(r'^yunwei/$',views.mas()),
+   url(r'(?P<codes>[a-zA-Z0-9]+)',views.mas)
 ]
