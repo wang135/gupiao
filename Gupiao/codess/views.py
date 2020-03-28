@@ -77,3 +77,11 @@ class codeall(APIView):
         ser = PeopleinfoModelSerializer(hang,many=True)
         ret = json.dumps(ser,ensure_ascii=False)
         return HttpResponse(ret)
+
+
+class codes(APIView):
+    def get(self,request):
+        hang = Dayhangqing1.objects.filter(codes='000001').filter(time__gte='2019-12-01').order_by('-time')
+        ser = PeopleinfoModelSerializer(hang,many=True)
+        ret = json.dumps(ser,ensure_ascii=False)
+        return HttpResponse(ret)
