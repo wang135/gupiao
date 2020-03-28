@@ -3,6 +3,8 @@ from django.shortcuts import render,HttpResponse
 # Create your views here.
 
 
+##zuixinde
+import math
 import json
 import pandas as pd
 from django.shortcuts import render,HttpResponse
