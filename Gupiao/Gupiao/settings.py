@@ -90,10 +90,10 @@ WSGI_APPLICATION = 'Gupiao.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'codeall',
+        'NAME': 'finance',
         'USER': 'root',
-        'PASSWORD': '1160329981wj',
-        'HOST': "106.13.112.136",
+        'PASSWORD': '123456',
+        'HOST': "localhost",
         'PORT': 3306,
         'init_command': 'SET default_storage_engine=MyISAM',
 

@@ -7,17 +7,52 @@ from django.shortcuts import render,HttpResponse
 import math
 import json
 import pandas as pd
-from django.shortcuts import render,HttpResponse
+from django.shortcuts import render, HttpResponse
 from rest_framework.views import APIView
-import pandas as pd
-from .models import Dayhangqing1
+#import pandas as pd
+from .models import RidayProducts11
+from rest_framework import serializers
 import talib as ta
+from django.http import HttpResponse
+from rest_framework.response import Response
+
+class PeopleinfoModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RidayProducts11
+        fields = "__all__"
+
+def my_view(request):
+    # ...
+
+    # Return a "created" (201) response code.
+    return HttpResponse("zhongyuhaol")
+def ceshiaa(request):
+    # hang = RidayProducts11.objects.filter(codes='000001').filter(time__gte='2019-12-01').order_by('-time').values('codes')
+    # print('aaaaaaaaaaa', hang)
+    #ser = PeopleinfoModelSerializer(hang, many=True)
+    return HttpResponse("aaaaa")
+
+def rihangqing(request,code):
+    hang = RidayProducts11.objects.filter(codes=code).filter(time__gte='2019-12-01').order_by('-time').values('codes')
+    print('aaaaaaaaaaa', hang)
+    ser = PeopleinfoModelSerializer(hang, many=True)
+    return Response(ser.data)
+def rihangqing_day(request,code):
+    hang = RidayProducts11.objects.filter(codes=code).filter(time__gte='2020-07-01').order_by('-time')
+    datas = pd.DataFrame(list(hang.values()))
+    #ser = PeopleinfoModelSerializer(hang, many=True)
+    ret = to_json2(datas)
+    # print(type(ret))
+    # return HttpResponse(ret)
+    return HttpResponse(json.dumps(ret, ensure_ascii=False), content_type="application/json,charset=utf-8")
+#     #return HttpResponse("zhongyuhaollllllllllll")
+
 def to_json2(df,orient='split'):
     df_json = df.to_json(orient = orient, force_ascii = False)
     return json.loads(df_json)
 def mas(request,codes):
     ret = {}
-    hang = Dayhangqing1.objects.filter(codes=codes).filter(time__gte='2019-12-01').order_by('-time')
+    hang = RidayProducts11.objects.filter(codes=codes).filter(time__gte='2020-05-01').order_by('-time')
     datas = pd.DataFrame(list(hang.values()))
    # 成交量指标
     #1AD
@@ -28,7 +63,7 @@ def mas(request,codes):
     ADX = ta.ADX(datas['high'], datas['low'], datas['closes'], timeperiod=14)
     ADXR = ta.ADXR(datas['high'], datas['low'], datas['closes'], timeperiod=14)
     AROONOSC = ta.AROONOSC(datas['high'], datas['low'], timeperiod=14)
-    BOP = ta.BOP(datas['open'], datas['high'], datas['low'], datas['closes'])
+    BOP = ta.BOP(datas['opens'], datas['high'], datas['low'], datas['closes'])
     cci = ta.CCI(datas['high'], datas['low'], datas['closes'], timeperiod=14)
     CMO = ta.CMO(datas['closes'], timeperiod=14)
     DX = ta.DX(datas['high'], datas['low'], datas['closes'], timeperiod=14)
@@ -37,7 +72,7 @@ def mas(request,codes):
     #MACDEXT =
     dif, dem, histogram = ta.MACDEXT(datas['closes'], fastperiod=12, fastmatype=0, slowperiod=26, slowmatype=0, signalperiod=9,
                                   signalmatype=0)
-    MFI = MFI(datas['high'], datas['low'], datas['closes'],datas['volume'], timeperiod=14)
+    MFI = ta.MFI(datas['high'], datas['low'], datas['closes'],datas['volume'], timeperiod=14)
     MINUS_DI = ta.MINUS_DI(datas['high'], datas['low'], datas['closes'], timeperiod=14)
     MINUS_DM = ta.MINUS_DM(datas['high'], datas['low'], timeperiod=14)
     MOM = ta.MOM(datas['closes'], timeperiod=10)
@@ -53,7 +88,7 @@ def mas(request,codes):
 
 
     ret = to_json2(datas)
-    print(type(ret))
+    #print(type(ret))
     # return HttpResponse(ret)
     return HttpResponse(json.dumps(ret, ensure_ascii=False), content_type="application/json,charset=utf-8")
 
@@ -67,21 +102,4 @@ from rest_framework import serializers
 #         fields = '__all__'
 #         exclude = ['dateTime']
 
-class PeopleinfoModelSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Dayhangqing1
-        fields = "__all__"
-class codeall(APIView):
-    def get(self,request):
-        hang = Dayhangqing1.objects.filter(codes='000001').filter(time__gte='2019-12-01').order_by('-time')
-        ser = PeopleinfoModelSerializer(hang,many=True)
-        ret = json.dumps(ser,ensure_ascii=False)
-        return HttpResponse(ret)
-
-
-class codes(APIView):
-    def get(self,request):
-        hang = Dayhangqing1.objects.filter(codes='000001').filter(time__gte='2019-12-01').order_by('-time')
-        ser = PeopleinfoModelSerializer(hang,many=True)
-        ret = json.dumps(ser,ensure_ascii=False)
-        return HttpResponse(ret)
+#

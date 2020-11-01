@@ -15,11 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from codess import views
+#from .codess import views
+#from .codess import views
+#from codess import views
 from django.conf.urls import url,include
+from codess import urls as ur
 urlpatterns = [
     path('admin/', admin.site.urls),
-   # url(r'^yunwei/$',views.mas()),
-   url(r'(?P<codes>[a-zA-Z0-9]+)',views.mas),
-    # url(r'code/',views.codeall.as_view())
+path('code/', include(ur.code_url )),
+# path(r'ee/$',views.my_view),
+#    # url(r'^yunwei/$',views.mas()),
+#    url(r'(?P<codes>[a-zA-Z0-9]+)',views.mas),
+#     #url(r'code/$', views.codeall.as_view()),
+# #url(r'aa/$', views.codes.as_view()),
+#     url(r'^dd/$',views.ceshiaa),
 ]
